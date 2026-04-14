@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Security System Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .fsm-node { transition: all 0.3s ease; }
+        .fsm-node:hover { transform: scale(1.05); }
+        .active-state { border: 3px solid #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-600 p-2 rounded-lg">
+                        <i class="fas fa-bolt text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-xl block leading-none">Arduino Security</span>
+                        <span class="text-xs text-slate-500">Technical Documentation</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                    <a href="#intro" class="hover:text-blue-600 transition">Introduzione</a>
+                    <a href="#fsm" class="hover:text-blue-600 transition">FSM Analysis</a>
+                    <a href="#hardware" class="hover:text-blue-600 transition">Hardware</a>
+                    <a href="#config" class="hover:text-blue-600 transition">Configurazione</a>
+                </div>
+                <button class="p-2 rounded-full hover:bg-slate-100 transition">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative bg-slate-900 py-24 overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                        Arduino Security System
+                    </h1>
+                    <p class="text-xl text-slate-300 mb-8">
+                        Documentazione tecnica completa per il sistema antifurto e illuminazione domotica basato su Arduino. Scopri l'architettura hardware, la logica della macchina a stati e le guide alla configurazione.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#fsm" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-900/20">
+                            Scopri di più
+                        </a>
+                        <a href="#fsm" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-3 rounded-xl font-semibold transition backdrop-blur-sm">
+                            Logica del Sistema
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80&w=800" alt="Arduino Board" class="rounded-2xl shadow-2xl border border-white/10">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <section class="py-12 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl font-bold text-blue-600">7</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Stati del Sistema</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-blue-600">18</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Pin Utilizzati</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-blue-600">3</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Protocolli</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-blue-600">100%</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Open Source</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <!-- Intro -->
+        <section id="intro" class="mb-32">
+            <div class="max-w-3xl">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="w-8 h-1 bg-blue-600 rounded-full"></span>
+                    Relazione Tecnica
+                </h2>
+                <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                    Questo documento presenta un'analisi tecnica approfondita di un sistema di sicurezza integrato basato su microcontrollore Arduino. Il sistema implementa una macchina a stati finiti deterministica (FSM) composta da sette stati logici, dove ogni transizione è governata da condizioni esplicite derivanti da input sensoriali e comandi dell'operatore.
+                </p>
+                <div class="grid sm:grid-cols-2 gap-6 mt-12">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <i class="fas fa-microchip text-blue-600 text-2xl mb-4"></i>
+                        <h3 class="font-bold mb-2">Architettura FSM</h3>
+                        <p class="text-sm text-slate-500">Descrizione dettagliata dei 7 stati e delle transizioni logiche.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <i class="fas fa-plug text-blue-600 text-2xl mb-4"></i>
+                        <h3 class="font-bold mb-2">Pin Mapping</h3>
+                        <p class="text-sm text-slate-500">Documentazione completa delle connessioni hardware e specifiche.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FSM Analysis -->
+        <section id="fsm" class="mb-32">
+            <h2 class="text-3xl font-bold mb-12 text-center">Analisi della Macchina a Stati Finiti (FSM)</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- State 0 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-600 mb-6">S0</div>
+                    <h3 class="text-xl font-bold mb-4">Sistema Disarmato (OFF)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Condizione di riposo del sistema. Il microcontrollore rimane in attesa di un comando di avvio tramite il pulsante (A1). Tutti gli attuatori di allarme sono disattivati.
+                    </p>
+                </div>
+                <!-- State 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center font-bold text-blue-600 mb-6">S2</div>
+                    <h3 class="text-xl font-bold mb-4">Attesa Autenticazione</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Il sistema entra in fase di autenticazione tramite badge RFID. Il lettore RC522 è abilitato e rimane in polling per la lettura. LED verde lampeggia a 2 Hz.
+                    </p>
+                </div>
+                <!-- State 4 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center font-bold text-green-600 mb-6">S4</div>
+                    <h3 class="text-xl font-bold mb-4">Sorveglianza Attiva</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Sistema completamente operativo. Monitora continuamente i sensori perimetrali (pin 8 e A3). LED verde acceso fisso.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- FSM Diagram Placeholder -->
+            <div class="mt-12 bg-slate-900 rounded-3xl p-12 text-center text-white">
+                <div class="max-w-2xl mx-auto">
+                    <i class="fas fa-project-diagram text-4xl mb-6 text-blue-400"></i>
+                    <h3 class="text-2xl font-bold mb-4">Diagramma dei Stati (GRAFCET)</h3>
+                    <p class="text-slate-400 mb-8">Visualizzazione logica delle transizioni di stato del sistema antifurto.</p>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S0: OFF</span>
+                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S2: RFID</span>
+                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S3: Countdown</span>
+                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
+                        <span class="px-4 py-2 bg-blue-600 rounded-full text-xs border border-blue-500">S4: ARMATO</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hardware Section -->
+        <section id="hardware" class="mb-32">
+            <h2 class="text-3xl font-bold mb-12">Specifiche Hardware e Pin Mapping</h2>
+            <div class="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Pin</th>
+                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Componente</th>
+                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Modalità</th>
+                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Funzione</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-blue-600">D8</td>
+                            <td class="px-6 py-4 font-medium">Sensore Finestra</td>
+                            <td class="px-6 py-4 text-slate-500">Input (NC)</td>
+                            <td class="px-6 py-4 text-slate-500">Rilevamento apertura finestra</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-blue-600">A3</td>
+                            <td class="px-6 py-4 font-medium">Sensore Porta</td>
+                            <td class="px-6 py-4 text-slate-500">Input (NC)</td>
+                            <td class="px-6 py-4 text-slate-500">Rilevamento apertura porta</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-blue-600">D10-D13</td>
+                            <td class="px-6 py-4 font-medium">RFID RC522</td>
+                            <td class="px-6 py-4 text-slate-500">SPI</td>
+                            <td class="px-6 py-4 text-slate-500">Autenticazione utente</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-blue-600">A4-A5</td>
+                            <td class="px-6 py-4 font-medium">Display LCD</td>
+                            <td class="px-6 py-4 text-slate-500">I2C</td>
+                            <td class="px-6 py-4 text-slate-500">Interfaccia utente visiva</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-600 p-2 rounded-lg">
+                        <i class="fas fa-bolt text-white"></i>
+                    </div>
+                    <span class="font-bold text-xl">Arduino Security</span>
+                </div>
+                <div class="flex gap-8 text-slate-400 text-sm">
+                    <a href="#" class="hover:text-white transition">Documentazione</a>
+                    <a href="#" class="hover:text-white transition">GitHub</a>
+                    <a href="#" class="hover:text-white transition">Supporto</a>
+                </div>
+                <div class="text-slate-500 text-sm">
+                    &copy; 2026 Arduino Security System. Made with Manus.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

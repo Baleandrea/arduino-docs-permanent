@@ -8,15 +8,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .fsm-node { transition: all 0.3s ease; }
-        .fsm-node:hover { transform: scale(1.05); }
-        .active-state { border: 3px solid #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .state-card { transition: all 0.3s ease; }
+        .state-card.active { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); transform: translateY(-5px); }
+        .led { width: 20px; height: 20px; border-radius: 50%; display: inline-block; border: 2px solid rgba(0,0,0,0.1); }
+        .led-off { background-color: #334155; }
+        .led-green { background-color: #22c55e; box-shadow: 0 0 10px #22c55e; }
+        .led-red { background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
+        .led-yellow { background-color: #eab308; box-shadow: 0 0 10px #eab308; }
+        .blink { animation: blink-animation 0.5s steps(2, start) infinite; }
+        @keyframes blink-animation { to { visibility: hidden; } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-2">
@@ -28,186 +34,262 @@
                         <span class="text-xs text-slate-500">Technical Documentation</span>
                     </div>
                 </div>
-                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
                     <a href="#intro" class="hover:text-blue-600 transition">Introduzione</a>
                     <a href="#fsm" class="hover:text-blue-600 transition">FSM Analysis</a>
+                    <a href="#simulator" class="hover:text-blue-600 transition">Simulatore</a>
                     <a href="#hardware" class="hover:text-blue-600 transition">Hardware</a>
-                    <a href="#config" class="hover:text-blue-600 transition">Configurazione</a>
+                    <a href="#feedback" class="hover:text-blue-600 transition">Feedback</a>
                 </div>
-                <button class="p-2 rounded-full hover:bg-slate-100 transition">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/Baleandrea/arduino-docs-permanent" target="_blank" class="text-slate-400 hover:text-slate-900 transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative bg-slate-900 py-24 overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-        </div>
+    <!-- Hero -->
+    <header class="bg-slate-900 py-20 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-                        Arduino Security System
-                    </h1>
-                    <p class="text-xl text-slate-300 mb-8">
-                        Documentazione tecnica completa per il sistema antifurto e illuminazione domotica basato su Arduino. Scopri l'architettura hardware, la logica della macchina a stati e le guide alla configurazione.
-                    </p>
+                    <span class="inline-block px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">Progetto Automazione</span>
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">Arduino Security System</h1>
+                    <p class="text-xl text-slate-400 mb-8">Documentazione tecnica completa per il sistema antifurto e illuminazione domotica basato su Arduino. Analisi FSM, hardware e simulazione interattiva.</p>
                     <div class="flex gap-4">
-                        <a href="#fsm" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-900/20">
-                            Scopri di più
-                        </a>
-                        <a href="#fsm" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-3 rounded-xl font-semibold transition backdrop-blur-sm">
-                            Logica del Sistema
-                        </a>
+                        <a href="#simulator" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-900/40">Prova il Simulatore</a>
+                        <a href="#fsm" class="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-3 rounded-xl font-semibold transition">Logica FSM</a>
                     </div>
                 </div>
-                <div class="hidden md:block">
-                    <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80&w=800" alt="Arduino Board" class="rounded-2xl shadow-2xl border border-white/10">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-blue-500/20 blur-3xl rounded-full"></div>
+                    <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80&w=800" alt="Arduino" class="relative rounded-2xl shadow-2xl border border-white/10">
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Stats -->
-    <section class="py-12 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="text-3xl font-bold text-blue-600">7</div>
-                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Stati del Sistema</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-blue-600">18</div>
-                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Pin Utilizzati</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-blue-600">3</div>
-                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Protocolli</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-blue-600">100%</div>
-                    <div class="text-sm text-slate-500 uppercase tracking-wider font-semibold">Open Source</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <!-- Intro -->
-        <section id="intro" class="mb-32">
+        <section id="intro" class="mb-24">
             <div class="max-w-3xl">
-                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
-                    <span class="w-8 h-1 bg-blue-600 rounded-full"></span>
+                <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                    <span class="w-10 h-1 bg-blue-600 rounded-full"></span>
                     Relazione Tecnica
                 </h2>
-                <p class="text-lg text-slate-600 mb-6 leading-relaxed">
-                    Questo documento presenta un'analisi tecnica approfondita di un sistema di sicurezza integrato basato su microcontrollore Arduino. Il sistema implementa una macchina a stati finiti deterministica (FSM) composta da sette stati logici, dove ogni transizione è governata da condizioni esplicite derivanti da input sensoriali e comandi dell'operatore.
-                </p>
-                <div class="grid sm:grid-cols-2 gap-6 mt-12">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <i class="fas fa-microchip text-blue-600 text-2xl mb-4"></i>
-                        <h3 class="font-bold mb-2">Architettura FSM</h3>
-                        <p class="text-sm text-slate-500">Descrizione dettagliata dei 7 stati e delle transizioni logiche.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <i class="fas fa-plug text-blue-600 text-2xl mb-4"></i>
-                        <h3 class="font-bold mb-2">Pin Mapping</h3>
-                        <p class="text-sm text-slate-500">Documentazione completa delle connessioni hardware e specifiche.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FSM Analysis -->
-        <section id="fsm" class="mb-32">
-            <h2 class="text-3xl font-bold mb-12 text-center">Analisi della Macchina a Stati Finiti (FSM)</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- State 0 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-600 mb-6">S0</div>
-                    <h3 class="text-xl font-bold mb-4">Sistema Disarmato (OFF)</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Condizione di riposo del sistema. Il microcontrollore rimane in attesa di un comando di avvio tramite il pulsante (A1). Tutti gli attuatori di allarme sono disattivati.
+                <div class="prose prose-slate lg:prose-lg">
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Questo sistema implementa una <strong>Macchina a Stati Finiti (FSM)</strong> deterministica composta da sette stati logici. Ogni transizione è governata da condizioni esplicite derivanti da input sensoriali (sensori magnetici, LDR) e comandi dell'operatore (pulsanti, RFID).
                     </p>
-                </div>
-                <!-- State 2 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center font-bold text-blue-600 mb-6">S2</div>
-                    <h3 class="text-xl font-bold mb-4">Attesa Autenticazione</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Il sistema entra in fase di autenticazione tramite badge RFID. Il lettore RC522 è abilitato e rimane in polling per la lettura. LED verde lampeggia a 2 Hz.
-                    </p>
-                </div>
-                <!-- State 4 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center font-bold text-green-600 mb-6">S4</div>
-                    <h3 class="text-xl font-bold mb-4">Sorveglianza Attiva</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Sistema completamente operativo. Monitora continuamente i sensori perimetrali (pin 8 e A3). LED verde acceso fisso.
-                    </p>
-                </div>
-            </div>
-            
-            <!-- FSM Diagram Placeholder -->
-            <div class="mt-12 bg-slate-900 rounded-3xl p-12 text-center text-white">
-                <div class="max-w-2xl mx-auto">
-                    <i class="fas fa-project-diagram text-4xl mb-6 text-blue-400"></i>
-                    <h3 class="text-2xl font-bold mb-4">Diagramma dei Stati (GRAFCET)</h3>
-                    <p class="text-slate-400 mb-8">Visualizzazione logica delle transizioni di stato del sistema antifurto.</p>
-                    <div class="flex justify-center gap-4 flex-wrap">
-                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S0: OFF</span>
-                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
-                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S2: RFID</span>
-                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
-                        <span class="px-4 py-2 bg-white/10 rounded-full text-xs border border-white/10">S3: Countdown</span>
-                        <i class="fas fa-arrow-right text-white/20 self-center"></i>
-                        <span class="px-4 py-2 bg-blue-600 rounded-full text-xs border border-blue-500">S4: ARMATO</span>
+                    <div class="grid sm:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                            <div class="text-2xl font-bold text-blue-600">7</div>
+                            <div class="text-xs text-slate-500 uppercase">Stati Logici</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                            <div class="text-2xl font-bold text-blue-600">16</div>
+                            <div class="text-xs text-slate-500 uppercase">Pin Configurate</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                            <div class="text-2xl font-bold text-blue-600">3</div>
+                            <div class="text-xs text-slate-500 uppercase">Protocolli</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Hardware Section -->
-        <section id="hardware" class="mb-32">
-            <h2 class="text-3xl font-bold mb-12">Specifiche Hardware e Pin Mapping</h2>
-            <div class="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+        <!-- FSM Simulator -->
+        <section id="simulator" class="mb-24 scroll-mt-20">
+            <div class="bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
+                <div class="absolute top-0 right-0 p-8 opacity-10">
+                    <i class="fas fa-microchip text-9xl text-white"></i>
+                </div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold text-white mb-2">Simulatore Interattivo FSM</h2>
+                    <p class="text-slate-400 mb-12">Sperimenta la logica del sistema in tempo reale.</p>
+
+                    <div class="grid lg:grid-cols-3 gap-12">
+                        <!-- Controls -->
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Input Sensori</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+                                        <span class="text-white">Porta</span>
+                                        <button id="btn-porta" onclick="toggleSensor('porta')" class="px-4 py-1 rounded-lg bg-slate-700 text-xs text-white hover:bg-slate-600 transition">CHIUSA</button>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+                                        <span class="text-white">Finestra</span>
+                                        <button id="btn-finestra" onclick="toggleSensor('finestra')" class="px-4 py-1 rounded-lg bg-slate-700 text-xs text-white hover:bg-slate-600 transition">CHIUSA</button>
+                                    </div>
+                                    <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-white">Luminosità (LDR)</span>
+                                            <span id="val-ldr" class="text-blue-400 font-mono">300</span>
+                                        </div>
+                                        <input type="range" min="0" max="1023" value="300" oninput="updateLDR(this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Comandi Utente</h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="pressButton()" class="bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl text-sm font-bold transition">Pulsante AVVIO</button>
+                                    <button onclick="scanRFID(true)" class="bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl text-sm font-bold transition">RFID OK</button>
+                                    <button onclick="scanRFID(false)" class="bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-xl text-sm font-bold transition">RFID NEGATO</button>
+                                    <button onclick="resetSim()" class="bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl text-sm font-bold transition">RESET</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Display -->
+                        <div class="lg:col-span-2 bg-black/40 rounded-2xl border border-white/5 p-8 flex flex-col">
+                            <div class="flex justify-between items-start mb-8">
+                                <div>
+                                    <div id="state-id" class="text-blue-500 font-mono text-sm mb-1">STATO: S0</div>
+                                    <h3 id="state-name" class="text-2xl font-bold text-white">SISTEMA DISARMATO</h3>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="text-center">
+                                        <div id="led-green" class="led led-green"></div>
+                                        <div class="text-[10px] text-slate-500 mt-1 uppercase">Verde</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div id="led-red" class="led led-off"></div>
+                                        <div class="text-[10px] text-slate-500 mt-1 uppercase">Rosso</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow flex items-center justify-center py-12">
+                                <div id="lcd-display" class="bg-[#2d3a2d] border-4 border-slate-800 p-6 rounded-lg shadow-inner w-full max-w-md font-mono">
+                                    <div id="lcd-line1" class="text-[#94ad94] text-xl uppercase tracking-widest mb-2">ANTIFURTO OFF</div>
+                                    <div id="lcd-line2" class="text-[#94ad94] text-xl uppercase tracking-widest opacity-60">Premi pulsante</div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mt-8">
+                                <div class="text-center p-3 rounded-lg bg-white/5 border border-white/5">
+                                    <i id="icon-lamp" class="fas fa-lightbulb text-slate-600 text-xl mb-2"></i>
+                                    <div class="text-[10px] text-slate-500 uppercase">Lampioni</div>
+                                </div>
+                                <div class="text-center p-3 rounded-lg bg-white/5 border border-white/5">
+                                    <i id="icon-siren" class="fas fa-volume-up text-slate-600 text-xl mb-2"></i>
+                                    <div class="text-[10px] text-slate-500 uppercase">Sirena</div>
+                                </div>
+                                <div class="text-center p-3 rounded-lg bg-white/5 border border-white/5">
+                                    <div id="timer-val" class="text-xl font-bold text-blue-500 font-mono">--</div>
+                                    <div class="text-[10px] text-slate-500 uppercase">Timer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FSM Details -->
+        <section id="fsm" class="mb-24">
+            <h2 class="text-3xl font-bold mb-12">Analisi degli Stati</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-slate-100 rounded-lg text-xs font-bold text-slate-600">S0</span>
+                        <i class="fas fa-power-off text-slate-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Sistema Disarmato</h3>
+                    <p class="text-sm text-slate-500">Stato di riposo. Monitora solo la luminosità per i lampioni. In attesa del pulsante di avvio.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-rose-100 rounded-lg text-xs font-bold text-rose-600">S1</span>
+                        <i class="fas fa-exclamation-triangle text-rose-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Errore Sensori</h3>
+                    <p class="text-sm text-slate-500">Impedisce l'armamento se una porta o finestra è aperta. Richiede la chiusura per procedere.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-blue-100 rounded-lg text-xs font-bold text-blue-600">S2</span>
+                        <i class="fas fa-id-card text-blue-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Attesa RFID</h3>
+                    <p class="text-sm text-slate-500">Fase di autenticazione. Il sistema attende la lettura di un badge autorizzato entro 15 secondi.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-yellow-100 rounded-lg text-xs font-bold text-yellow-600">S3</span>
+                        <i class="fas fa-clock text-yellow-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Countdown</h3>
+                    <p class="text-sm text-slate-500">Ritardo di uscita (5s). Permette all'utente di allontanarsi prima dell'attivazione totale.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-emerald-100 rounded-lg text-xs font-bold text-emerald-600">S4</span>
+                        <i class="fas fa-shield-alt text-emerald-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Sorveglianza Attiva</h3>
+                    <p class="text-sm text-slate-500">Sistema armato. Ogni apertura di porta o finestra innescherà la procedura di allarme.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 bg-red-100 rounded-lg text-xs font-bold text-red-600">S6</span>
+                        <i class="fas fa-bell text-red-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Allarme Generale</h3>
+                    <p class="text-sm text-slate-500">Sirena e LED rosso attivati a 6Hz. Richiede autenticazione RFID per il disarmo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hardware Table -->
+        <section id="hardware" class="mb-24">
+            <h2 class="text-3xl font-bold mb-8">Pin Mapping Completo</h2>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Pin</th>
-                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Componente</th>
-                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Modalità</th>
-                            <th class="px-6 py-4 text-sm font-bold text-slate-600 uppercase tracking-wider">Funzione</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Pin</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Componente</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Protocollo</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Funzione</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 bg-white">
+                    <tbody class="divide-y divide-slate-100">
                         <tr>
                             <td class="px-6 py-4 font-mono text-blue-600">D8</td>
-                            <td class="px-6 py-4 font-medium">Sensore Finestra</td>
-                            <td class="px-6 py-4 text-slate-500">Input (NC)</td>
-                            <td class="px-6 py-4 text-slate-500">Rilevamento apertura finestra</td>
+                            <td class="px-6 py-4 font-semibold">Sensore Finestra</td>
+                            <td class="px-6 py-4 text-slate-500">Digitale (NC)</td>
+                            <td class="px-6 py-4 text-sm text-slate-600">Rilevamento perimetrale finestra</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 font-mono text-blue-600">A3</td>
-                            <td class="px-6 py-4 font-medium">Sensore Porta</td>
-                            <td class="px-6 py-4 text-slate-500">Input (NC)</td>
-                            <td class="px-6 py-4 text-slate-500">Rilevamento apertura porta</td>
+                            <td class="px-6 py-4 font-semibold">Sensore Porta</td>
+                            <td class="px-6 py-4 text-slate-500">Digitale (NC)</td>
+                            <td class="px-6 py-4 text-sm text-slate-600">Rilevamento perimetrale porta</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 font-mono text-blue-600">D10-D13</td>
-                            <td class="px-6 py-4 font-medium">RFID RC522</td>
+                            <td class="px-6 py-4 font-semibold">RFID RC522</td>
                             <td class="px-6 py-4 text-slate-500">SPI</td>
-                            <td class="px-6 py-4 text-slate-500">Autenticazione utente</td>
+                            <td class="px-6 py-4 text-sm text-slate-600">Interfaccia di autenticazione</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 font-mono text-blue-600">A4-A5</td>
-                            <td class="px-6 py-4 font-medium">Display LCD</td>
-                            <td class="px-6 py-4 text-slate-500">I2C</td>
-                            <td class="px-6 py-4 text-slate-500">Interfaccia utente visiva</td>
+                            <td class="px-6 py-4 font-semibold">Display LCD</td>
+                            <td class="px-6 py-4 text-slate-500">I2C (0x27)</td>
+                            <td class="px-6 py-4 text-sm text-slate-600">Feedback testuale utente</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-blue-600">A0</td>
+                            <td class="px-6 py-4 font-semibold">Fotoresistenza</td>
+                            <td class="px-6 py-4 text-slate-500">Analogico</td>
+                            <td class="px-6 py-4 text-sm text-slate-600">Controllo luci crepuscolari</td>
                         </tr>
                     </tbody>
                 </table>
@@ -215,26 +297,129 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-white py-12 border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-2">
-                    <div class="bg-blue-600 p-2 rounded-lg">
-                        <i class="fas fa-bolt text-white"></i>
-                    </div>
-                    <span class="font-bold text-xl">Arduino Security</span>
-                </div>
-                <div class="flex gap-8 text-slate-400 text-sm">
-                    <a href="#" class="hover:text-white transition">Documentazione</a>
-                    <a href="#" class="hover:text-white transition">GitHub</a>
-                    <a href="#" class="hover:text-white transition">Supporto</a>
-                </div>
-                <div class="text-slate-500 text-sm">
-                    &copy; 2026 Arduino Security System. Made with Manus.
-                </div>
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="text-slate-500 hover:text-white transition"><i class="fab fa-github text-2xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-white transition"><i class="fab fa-linkedin text-2xl"></i></a>
             </div>
+            <p class="text-slate-500 text-sm">&copy; 2026 Arduino Security System Documentation. Progetto didattico per Automazione.</p>
         </div>
     </footer>
+
+    <script>
+        // Simulator Logic
+        let state = 0;
+        let sensors = { porta: false, finestra: false, ldr: 300 };
+        let timer = null;
+        let timeLeft = 0;
+
+        function updateUI() {
+            const stateNames = ["SISTEMA DISARMATO", "ERRORE SENSORI", "ATTESA RFID", "COUNTDOWN", "SORVEGLIANZA ATTIVA", "RITARDO INTRUSIONE", "SIRENA ATTIVA"];
+            const lcdLines = [
+                ["ANTIFURTO OFF", "Premi pulsante"],
+                ["ERRORE SENSORI", "Chiudi ingressi"],
+                ["ATTESA RFID", "Presenta badge"],
+                ["COUNTDOWN", "Allontanati..."],
+                ["ANTIFURTO ON", "SP:OK SF:OK"],
+                ["INTRUSIONE!", "Disarmare ora"],
+                ["ALLARME!", "Polizia avvisata"]
+            ];
+
+            document.getElementById('state-id').innerText = `STATO: S${state}`;
+            document.getElementById('state-name').innerText = stateNames[state];
+            document.getElementById('lcd-line1').innerText = lcdLines[state][0];
+            document.getElementById('lcd-line2').innerText = state === 3 || state === 5 ? `Tempo: ${timeLeft}s` : lcdLines[state][1];
+            document.getElementById('timer-val').innerText = (state === 2 || state === 3 || state === 5) ? `${timeLeft}s` : "--";
+
+            // LEDs
+            const ledG = document.getElementById('led-green');
+            const ledR = document.getElementById('led-red');
+            ledG.className = "led led-off";
+            ledR.className = "led led-off";
+
+            if (state === 0) ledG.className = "led led-green";
+            if (state === 2) ledG.className = "led led-green blink";
+            if (state === 3) ledG.className = "led led-yellow blink";
+            if (state === 4) ledG.className = "led led-green";
+            if (state === 5) ledR.className = "led led-red blink";
+            if (state === 6) ledR.className = "led led-red blink";
+
+            // Lamp & Siren
+            document.getElementById('icon-lamp').className = sensors.ldr < 200 ? "fas fa-lightbulb text-yellow-400" : "fas fa-lightbulb text-slate-600";
+            document.getElementById('icon-siren').className = state === 6 ? "fas fa-volume-up text-red-500 blink" : "fas fa-volume-up text-slate-600";
+        }
+
+        function toggleSensor(type) {
+            sensors[type] = !sensors[type];
+            document.getElementById(`btn-${type}`).innerText = sensors[type] ? "APERTA" : "CHIUSA";
+            document.getElementById(`btn-${type}`).className = sensors[type] ? "px-4 py-1 rounded-lg bg-rose-600 text-xs text-white transition" : "px-4 py-1 rounded-lg bg-slate-700 text-xs text-white transition";
+            
+            if (state === 4 && (sensors.porta || sensors.finestra)) {
+                startTimer(5, 5);
+            }
+            updateUI();
+        }
+
+        function updateLDR(val) {
+            sensors.ldr = val;
+            document.getElementById('val-ldr').innerText = val;
+            updateUI();
+        }
+
+        function pressButton() {
+            if (state === 0) {
+                if (sensors.porta || sensors.finestra) state = 1;
+                else startTimer(15, 2);
+            } else if (state === 1 && !sensors.porta && !sensors.finestra) {
+                startTimer(15, 2);
+            }
+            updateUI();
+        }
+
+        function scanRFID(ok) {
+            if (ok) {
+                if (state === 2) startTimer(5, 3);
+                else if (state === 5 || state === 6 || state === 4) {
+                    clearInterval(timer);
+                    state = 0;
+                }
+            } else {
+                if (state === 2 || state === 5 || state === 6) {
+                    // RFID Negato - non cambia stato ma potrebbe loggare errore
+                }
+            }
+            updateUI();
+        }
+
+        function startTimer(seconds, nextState) {
+            clearInterval(timer);
+            state = nextState;
+            timeLeft = seconds;
+            timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (state === 2) state = 0;
+                    else if (state === 3) state = 4;
+                    else if (state === 5) state = 6;
+                    updateUI();
+                }
+                updateUI();
+            }, 1000);
+            updateUI();
+        }
+
+        function resetSim() {
+            clearInterval(timer);
+            state = 0;
+            sensors = { porta: false, finestra: false, ldr: 300 };
+            document.getElementById('btn-porta').innerText = "CHIUSA";
+            document.getElementById('btn-finestra').innerText = "CHIUSA";
+            updateUI();
+        }
+
+        updateUI();
+    </script>
 </body>
 </html>

@@ -1,0 +1,644 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Light Mode - WCAG AA Compliant */
+  --primary: #1e3a5f;
+  --primary-foreground: #f5f3f0;
+  --sidebar-primary: #1e3a5f;
+  --sidebar-primary-foreground: #f5f3f0;
+  --chart-1: #00d4ff;
+  --chart-2: #1e3a5f;
+  --chart-3: #2d5a8f;
+  --chart-4: #0099cc;
+  --chart-5: #005588;
+  --radius: 0.65rem;
+  --background: #f5f3f0;
+  --foreground: #1a1a1a;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #707070;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --secondary: #e8e6e1;
+  --secondary-foreground: #1e3a5f;
+  --muted: #d4d0c8;
+  --muted-foreground: #4a4a4a;
+  --accent: #0066cc;
+  --accent-foreground: #ffffff;
+  --link-color: #0052a3;
+  --link-hover: #003d7a;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e0dcd4;
+  --input: #ffffff;
+  --ring: #0066cc;
+  --sidebar: #f5f3f0;
+  --sidebar-foreground: #1e3a5f;
+  --sidebar-accent: #0066cc;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #e0dcd4;
+  --sidebar-ring: #0066cc;
+  --code-bg: #f5f5f5;
+  --code-text: #1a1a1a;
+}
+
+.dark {
+  /* Dark Mode - WCAG AA Compliant */
+  --primary: #1e3a5f;
+  --primary-foreground: #f5f3f0;
+  --sidebar-primary: #1e3a5f;
+  --sidebar-primary-foreground: #f5f3f0;
+  --background: #0f172a;
+  --foreground: #e8eef7;
+  --text-primary: #e8eef7;
+  --text-secondary: #b0b8c8;
+  --text-muted: #7a8290;
+  --card: #1e293b;
+  --card-foreground: #e8eef7;
+  --popover: #1e293b;
+  --popover-foreground: #e8eef7;
+  --secondary: #334155;
+  --secondary-foreground: #cbd5e1;
+  --muted: #475569;
+  --muted-foreground: #cbd5e1;
+  --accent: #3fa9f5;
+  --accent-foreground: #0f172a;
+  --link-color: #60a5fa;
+  --link-hover: #93c5fd;
+  --destructive: #ef4444;
+  --destructive-foreground: #0f172a;
+  --border: #334155;
+  --input: #1e293b;
+  --ring: #60a5fa;
+  --sidebar: #0f172a;
+  --sidebar-foreground: #e8eef7;
+  --sidebar-accent: #3fa9f5;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #334155;
+  --sidebar-ring: #60a5fa;
+  --code-bg: #1a1f2e;
+  --code-text: #e8eef7;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+    color: var(--text-primary);
+  }
+  h2 {
+    @apply text-2xl md:text-3xl;
+    color: var(--text-primary);
+  }
+  h3 {
+    @apply text-xl md:text-2xl;
+    color: var(--text-primary);
+  }
+  h4 {
+    color: var(--text-primary);
+  }
+  p {
+    @apply text-sm md:text-base;
+    color: var(--text-secondary);
+  }
+  a {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+  }
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  code {
+    background-color: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+  }
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  /* Card styling con sfondo adattivo per entrambi i temi */
+  .card {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border-color: var(--border);
+  }
+
+  /* Note e descrizioni con contrasto adeguato in entrambi i temi */
+  .note-section {
+    @apply rounded-lg border p-6 transition-colors duration-300;
+    background-color: var(--card);
+    color: var(--text-primary);
+    border-color: var(--border);
+  }
+
+  .note-section p {
+    color: var(--text-secondary);
+  }
+
+  .note-section strong,
+  .note-section .font-semibold {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* Stile per il testo muted con contrasto migliorato */
+  .note-section .text-muted-foreground {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Badge e inline code con contrasto adeguato */
+  .note-section .font-mono {
+    background-color: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+  }
+
+  /* Colori adattivi per il testo blu */
+  .text-blue-600 {
+    color: var(--link-color);
+  }
+
+  /* Colori adattivi per il testo grigio */
+  .text-gray-600,
+  .text-gray-700 {
+    color: var(--text-secondary);
+  }
+
+  /* Colori adattivi per il testo muted-foreground generale */
+  .text-muted-foreground {
+    color: var(--text-muted);
+  }
+
+  /* Link styling */
+  a.link,
+  a[href] {
+    color: var(--link-color);
+    transition: color 0.2s ease;
+  }
+
+  a.link:hover,
+  a[href]:hover {
+    color: var(--link-hover);
+  }
+
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   *
+   * This overrides Tailwind's default container behavior to:
+   * - Auto-center content (mx-auto)
+   * - Add responsive horizontal padding
+   * - Set max-width for large screens
+   */
+  .container {
+    @apply mx-auto px-4 sm:px-6 md:px-8 max-w-7xl;
+  }
+}
+
+/* Highlight.js Dark Mode Styling */
+.hljs {
+  background-color: var(--code-bg) !important;
+  color: var(--code-text) !important;
+}
+
+.hljs-attr,
+.hljs-attribute {
+  color: #60a5fa;
+}
+
+.hljs-string {
+  color: #4ade80;
+}
+
+.hljs-number {
+  color: #fbbf24;
+}
+
+.hljs-literal {
+  color: #f87171;
+}
+
+.hljs-type,
+.hljs-class {
+  color: #60a5fa;
+}
+
+.hljs-function {
+  color: #a78bfa;
+}
+
+.hljs-keyword {
+  color: #f472b6;
+}
+
+.hljs-comment {
+  color: #6b7280;
+}
+
+.dark .hljs {
+  background-color: #1a1f2e !important;
+  color: #e8eef7 !important;
+}
+
+.dark .hljs-attr,
+.dark .hljs-attribute {
+  color: #60a5fa;
+}
+
+.dark .hljs-string {
+  color: #4ade80;
+}
+
+.dark .hljs-number {
+  color: #fbbf24;
+}
+
+.dark .hljs-literal {
+  color: #f87171;
+}
+
+.dark .hljs-type,
+.dark .hljs-class {
+  color: #60a5fa;
+}
+
+.dark .hljs-function {
+  color: #a78bfa;
+}
+
+.dark .hljs-keyword {
+  color: #f472b6;
+}
+
+.dark .hljs-comment {
+  color: #6b7280;
+}
+
+
+/* ===== Arduino Modern Styling ===== */
+
+/* Card Moderne */
+.card, .section-container {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+/* Effetto "Cose che si muovono" al passaggio del mouse */
+.card:hover, .section-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-color: var(--accent);
+}
+
+/* Header Fisso (Sticky) */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--card);
+  border-bottom: 2px solid var(--accent);
+  padding: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Blocchi di codice leggibili */
+pre, code {
+  background-color: #2d2d2d !important;
+  color: #f8f8f2 !important;
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 4px solid var(--accent);
+  transition: border-color 0.3s ease;
+}
+
+/* Animazione di entrata per le sezioni */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth transitions per tema */
+body, header, .card, .section-container {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Arduino Accent Color Enhancement */
+.accent-highlight {
+  color: var(--accent);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Link styling con Arduino accent */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Button styling */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ===== Print Styles ===== */
+@media print {
+  /* Reset general styles for print */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0.5in;
+  }
+
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+
+  /* Hide elements that shouldn't print */
+  header,
+  footer,
+  nav,
+  .theme-toggle,
+  button:not([id*="print"]),
+  [role="button"]:not([id*="print"]),
+  .no-print {
+    display: none !important;
+  }
+
+  /* Section styling for print */
+  section {
+    page-break-inside: avoid;
+    margin-bottom: 1in;
+    border: none !important;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: black !important;
+    page-break-after: avoid;
+    margin-top: 0.5in;
+    margin-bottom: 0.25in;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 24pt;
+    border-bottom: 2pt solid black;
+    padding-bottom: 0.25in;
+  }
+
+  h2 {
+    font-size: 18pt;
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  /* Cards and containers */
+  .card,
+  .section-container,
+  .note-section {
+    background-color: white !important;
+    border: 1pt solid black !important;
+    color: black !important;
+    page-break-inside: avoid;
+    margin-bottom: 0.5in;
+    padding: 0.25in;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.5in;
+    page-break-inside: avoid;
+  }
+
+  table,
+  table td,
+  table th {
+    border: 1pt solid black !important;
+    color: black !important;
+    background-color: white !important;
+  }
+
+  table th {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    padding: 0.1in;
+  }
+
+  table td {
+    padding: 0.1in;
+    vertical-align: top;
+  }
+
+  /* Tabs - show all content */
+  [role="tab"],
+  [role="tablist"] {
+    display: none !important;
+  }
+
+  [role="tabpanel"] {
+    display: block !important;
+    page-break-inside: avoid;
+  }
+
+  /* Code blocks */
+  pre,
+  code {
+    background-color: #f5f5f5 !important;
+    color: black !important;
+    border: 1pt solid #cccccc !important;
+    padding: 0.25in;
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+
+  /* Links */
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666666;
+  }
+
+  /* Images */
+  img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  /* Remove animations and transitions */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Paragraph spacing */
+  p {
+    color: black !important;
+    margin-bottom: 0.25in;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* List styling */
+  ul,
+  ol {
+    margin-left: 0.5in;
+    color: black !important;
+  }
+
+  li {
+    color: black !important;
+    margin-bottom: 0.1in;
+    page-break-inside: avoid;
+  }
+
+  /* Print header/footer with page numbers */
+  @page {
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 10pt;
+      color: black;
+    }
+  }
+
+  /* Ensure text is readable */
+  body,
+  p,
+  li,
+  td,
+  th,
+  span,
+  div {
+    color: black !important;
+    background-color: white !important;
+  }
+
+  /* Remove box shadows and transforms */
+  .card:hover,
+  .section-container:hover,
+  button:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}

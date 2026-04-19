@@ -317,6 +317,7 @@ export default function CompletePinLegend() {
             </table>
             </div>
           </Card>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card className="p-4 border border-border">
             <p className="text-xs text-muted-foreground uppercase mb-2">Pin Digitali</p>

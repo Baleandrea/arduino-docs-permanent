@@ -14,11 +14,11 @@ const pinData = [
 ];
 
 const typeColors: Record<string, string> = {
-  Output: "bg-blue-100 text-blue-800",
-  Input: "bg-green-100 text-green-800",
-  SPI: "bg-purple-100 text-purple-800",
-  Analogico: "bg-orange-100 text-orange-800",
-  I2C: "bg-pink-100 text-pink-800",
+  Output: "bg-blue-500/20 text-blue-600 dark:text-blue-400",
+  Input: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-400",
+  SPI: "bg-violet-500/20 text-violet-700 dark:text-violet-400",
+  Analogico: "bg-amber-500/20 text-amber-700 dark:text-amber-400",
+  I2C: "bg-rose-500/20 text-rose-700 dark:text-rose-400",
 };
 
 export default function HardwareSection() {
@@ -33,15 +33,6 @@ export default function HardwareSection() {
             Il sistema utilizza una varietà di sensori e attuatori collegati ai pin digitali e analogici di Arduino. 
             La seguente tabella illustra la mappatura completa dei pin, essenziale per il cablaggio e la manutenzione dell'hardware.
           </p>
-        </div>
-
-        {/* Pin Mapping Illustration */}
-        <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
-          <img
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663507564771/VmjbmMBUAguN4P2X5ebQ87/pin_mapping_illustration-5eVKKX7tW7Pck5pLnmtcB5.webp"
-            alt="Pin Mapping"
-            className="w-full h-auto"
-          />
         </div>
 
         {/* Pin Table */}

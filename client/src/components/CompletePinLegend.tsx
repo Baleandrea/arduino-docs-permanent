@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 const pinCategories = [
   {
     name: "Sensori Perimetrali",
-    color: "bg-blue-50",
+    color: "bg-blue-500/10 dark:bg-blue-500/20",
     pins: [
       {
         pin: "D8",
@@ -29,7 +29,7 @@ const pinCategories = [
   },
   {
     name: "Feedback Visivo (LED)",
-    color: "bg-green-50",
+    color: "bg-emerald-500/10 dark:bg-emerald-500/20",
     pins: [
       {
         pin: "D6",
@@ -53,7 +53,7 @@ const pinCategories = [
   },
   {
     name: "Feedback Acustico",
-    color: "bg-yellow-50",
+    color: "bg-amber-500/10 dark:bg-amber-500/20",
     pins: [
       {
         pin: "A2",
@@ -68,7 +68,7 @@ const pinCategories = [
   },
   {
     name: "Illuminazione Crepuscolare",
-    color: "bg-orange-50",
+    color: "bg-orange-500/10 dark:bg-orange-500/20",
     pins: [
       {
         pin: "A0",
@@ -119,7 +119,7 @@ const pinCategories = [
   },
   {
     name: "RFID (SPI)",
-    color: "bg-purple-50",
+    color: "bg-violet-500/10 dark:bg-violet-500/20",
     pins: [
       {
         pin: "D9",
@@ -170,7 +170,7 @@ const pinCategories = [
   },
   {
     name: "Display LCD (I2C)",
-    color: "bg-cyan-50",
+    color: "bg-cyan-500/10 dark:bg-cyan-500/20",
     pins: [
       {
         pin: "A4",
@@ -194,7 +194,7 @@ const pinCategories = [
   },
   {
     name: "Controllo Utente",
-    color: "bg-red-50",
+    color: "bg-rose-500/10 dark:bg-rose-500/20",
     pins: [
       {
         pin: "A1",

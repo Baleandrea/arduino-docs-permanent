@@ -386,11 +386,15 @@ Error generating stack: `+l.message+`
 <script>
 // === TEMA AUTOMATICO DAL SISTEMA ===
 (function() {
-  var THEME_KEY = 'theme';
   var mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   
-  function applyTheme(theme) {
-    var isDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches);
+  function getEffectiveTheme() {
+    var saved = localStorage.getItem('theme');
+    if (!saved || saved === 'system') return mediaQuery.matches ? 'dark' : 'light';
+    return saved;
+  }
+  
+  function applyTheme(isDark) {
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
@@ -398,67 +402,18 @@ Error generating stack: `+l.message+`
     }
   }
   
-  // Applica il tema iniziale
-  var saved = localStorage.getItem(THEME_KEY) || 'system';
-  applyTheme(saved);
+  // Applica il tema iniziale (se non c'è preferenza salvata, usa il sistema)
+  if (!localStorage.getItem('theme')) {
+    applyTheme(mediaQuery.matches);
+  }
   
   // Ascolta i cambiamenti del sistema in tempo reale
   mediaQuery.addEventListener('change', function(e) {
-    var current = localStorage.getItem(THEME_KEY) || 'system';
-    if (current === 'system') {
-      applyTheme('system');
+    var saved = localStorage.getItem('theme');
+    // Aggiorna solo se non c'è una preferenza manuale salvata
+    if (!saved || saved === 'system') {
+      applyTheme(e.matches);
     }
-  });
-  
-  // Intercetta il pulsante tema per aggiungere la modalità "system"
-  document.addEventListener('DOMContentLoaded', function() {
-    // Cerca il pulsante tema ogni 500ms finché non lo trova
-    var attempts = 0;
-    var interval = setInterval(function() {
-      attempts++;
-      var btn = document.querySelector('[aria-label*="theme"], [title*="theme"], button[class*="theme"], [hint="Toggle theme"]');
-      if (!btn) {
-        // Cerca per icona luna/sole
-        btn = document.querySelector('button svg[class*="moon"], button svg[class*="sun"]');
-        if (btn) btn = btn.closest('button');
-      }
-      if (!btn) {
-        // Cerca pulsanti nell'header che potrebbero essere il toggle tema
-        var headerBtns = document.querySelectorAll('header button, nav button');
-        for (var i = 0; i < headerBtns.length; i++) {
-          var svgs = headerBtns[i].querySelectorAll('svg');
-          if (svgs.length > 0) {
-            btn = headerBtns[i];
-            break;
-          }
-        }
-      }
-      
-      if (btn || attempts > 20) {
-        clearInterval(interval);
-        if (!btn) return;
-        
-        // Clona il pulsante per rimuovere i listener esistenti
-        var newBtn = btn.cloneNode(true);
-        btn.parentNode.replaceChild(newBtn, btn);
-        
-        // Aggiunge il nuovo listener che cicla: system → dark → light → system
-        newBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          e.preventDefault();
-          var current = localStorage.getItem(THEME_KEY) || 'system';
-          var next = current === 'system' ? 'dark' : (current === 'dark' ? 'light' : 'system');
-          localStorage.setItem(THEME_KEY, next);
-          applyTheme(next);
-          // Aggiorna il tooltip
-          newBtn.title = 'Tema: ' + (next === 'system' ? 'Automatico (sistema)' : next === 'dark' ? 'Scuro' : 'Chiaro');
-        });
-        
-        // Imposta il tooltip iniziale
-        var currentTheme = localStorage.getItem(THEME_KEY) || 'system';
-        newBtn.title = 'Tema: ' + (currentTheme === 'system' ? 'Automatico (sistema)' : currentTheme === 'dark' ? 'Scuro' : 'Chiaro');
-      }
-    }, 500);
   });
 })();
 </script>
